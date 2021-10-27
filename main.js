@@ -57,7 +57,16 @@ function createItem(input) {
 }
 
 // plus 구현
-$input.addEventListener('keypress', (event) => {
+// $input.addEventListener('keyup', (event) => {
+//   if (event.key === 'Enter') {
+//     onAdd();
+//   }
+// });
+$input.addEventListener('keydown', (event) => {
+  // 여러번의 keydown을 이용해 한글자가 만들어지는 경우, 글자가 만들어지고 있는 과정인지 아닌지 확인
+  if (event.isComposing) {
+    return;
+  }
   if (event.key === 'Enter') {
     onAdd();
   }
