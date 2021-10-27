@@ -2,7 +2,7 @@
 const $form = document.querySelector('#form');
 const $input = document.querySelector('.footer__input');
 const $items = document.querySelector('.items');
-const itemRow = document.querySelector('.item__row');
+const $itemRow = document.querySelector('.item__row');
 const $button = document.querySelector('.item__delete');
 const $plusBtn = document.querySelector('.footer__button');
 
@@ -19,28 +19,39 @@ function onAdd() {
   $input.value = '';
   $input.focus();
 }
-
+let id = 0; // UUID
 function createItem(input) {
   const itemRow = document.createElement('li');
   itemRow.setAttribute('class', 'item__row');
-  const item = document.createElement('div');
-  item.setAttribute('class', 'item');
-  const itemName = document.createElement('span');
-  itemName.setAttribute('class', 'item__name');
-  itemName.innerText = input;
-  const button = document.createElement('button');
-  button.setAttribute('class', 'item__delete');
-  button.innerHTML = '<i class="fas fa-trash-alt"></i>';
-  button.addEventListener('click', () => {
-    $items.removeChild(itemRow);
-  });
-  const divider = document.createElement('div');
-  divider.setAttribute('class', 'item__divider');
+  itemRow.setAttribute('data-id', id);
+  itemRow.innerHTML = `
+    <div class="item">
+      <span class="item__name">${input}</span>
+      <button class="item__delete" >
+        <i class="fas fa-trash-alt" data-id=${id}></i>
+      </button>
+    </div>
+    <div class="item__divider"></div>
+  `;
+  id++;
+  // const item = document.createElement('div');
+  // item.setAttribute('class', 'item');
+  // const itemName = document.createElement('span');
+  // itemName.setAttribute('class', 'item__name');
+  // itemName.innerText = input;
+  // const button = document.createElement('button');
+  // button.setAttribute('class', 'item__delete');
+  // button.innerHTML = '<i class="fas fa-trash-alt"></i>';
+  // button.addEventListener('click', () => {
+  //   $items.removeChild(itemRow);
+  // });
+  // const divider = document.createElement('div');
+  // divider.setAttribute('class', 'item__divider');
 
-  item.appendChild(itemName);
-  item.appendChild(button);
-  itemRow.appendChild(item);
-  itemRow.appendChild(divider);
+  // item.appendChild(itemName);
+  // item.appendChild(button);
+  // itemRow.appendChild(item);
+  // itemRow.appendChild(divider);
 
   return itemRow;
 }
@@ -52,3 +63,11 @@ $input.addEventListener('keypress', (event) => {
   }
 });
 $plusBtn.addEventListener('click', onAdd);
+$items.addEventListener('click', (event) => {
+  const id = event.target.dataset.id;
+  if (id) {
+    const toBeDeleted = document.querySelector(`.item__row[data-id="${id}"]`);
+    console.log(toBeDeleted);
+    toBeDeleted.remove();
+  }
+});
