@@ -1,11 +1,15 @@
 // input 구현
-const $form = document.querySelector('#form');
 const $input = document.querySelector('.footer__input');
 const $items = document.querySelector('.items');
 const $itemRow = document.querySelector('.item__row');
 const $button = document.querySelector('.item__delete');
 const $plusBtn = document.querySelector('.footer__button');
+const $form = document.querySelector('.new-form');
 
+$form.addEventListener('submit', (event) => {
+  event.preventDefault();
+  onAdd();
+});
 function onAdd() {
   const input = $input.value;
   if (input === '') {
@@ -62,21 +66,20 @@ function createItem(input) {
 //     onAdd();
 //   }
 // });
-$input.addEventListener('keydown', (event) => {
-  // 여러번의 keydown을 이용해 한글자가 만들어지는 경우, 글자가 만들어지고 있는 과정인지 아닌지 확인
-  if (event.isComposing) {
-    return;
-  }
-  if (event.key === 'Enter') {
-    onAdd();
-  }
-});
+// $input.addEventListener('keydown', (event) => {
+//   // 여러번의 keydown을 이용해 한글자가 만들어지는 경우, 글자가 만들어지고 있는 과정인지 아닌지 확인
+//   if (event.isComposing) {
+//     return;
+//   }
+//   if (event.key === 'Enter') {
+//     onAdd();
+//   }
+// });
 $plusBtn.addEventListener('click', onAdd);
 $items.addEventListener('click', (event) => {
   const id = event.target.dataset.id;
   if (id) {
     const toBeDeleted = document.querySelector(`.item__row[data-id="${id}"]`);
-    console.log(toBeDeleted);
     toBeDeleted.remove();
   }
 });
